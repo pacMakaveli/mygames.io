@@ -1,6 +1,8 @@
 class GamesController < ApplicationController
   before_action :set_game, only: [:show, :edit, :update, :destroy]
 
+  before_action :authenticate_user!, only: [:new, :create, :destroy]
+
   # GET /games
   # GET /games.json
   def index
@@ -63,6 +65,12 @@ class GamesController < ApplicationController
       format.html { redirect_to games_url, notice: 'Game was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def new_from_gb
+    Game.new_from_gb(params[:game])
+
+    redirect_to games_path
   end
 
   private
