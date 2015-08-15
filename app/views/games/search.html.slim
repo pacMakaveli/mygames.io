@@ -1,0 +1,13 @@
+= form_tag search_games_path, method: :get do |f|
+
+  = text_field_tag 'query', params[:query]
+  = submit_tag 'Search'
+
+- if params[:query]
+
+  - @games.each do |g|
+
+    pre
+      = g
+      = g['aliases']
+      = g['image']
