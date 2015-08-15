@@ -5,9 +5,41 @@
 
 - if params[:query]
 
-  - @games.each do |g|
+  - if @games.nil?
 
-    pre
-      = g
-      = g['aliases']
-      = g['image']
+    = "No games found for <strong>#{params[:query]}</strong>".html_safe
+
+  - else
+
+    = "Found <strong>#{@games.count}</strong> games that match <strong>'#{params[:query]}'</strong> query".html_safe
+
+    - @games.each do |g|
+
+
+      .panel.panel-default
+        .panel-heading
+          h2= g['name']
+
+          span.pull-right
+            = g['resource_type']
+
+        .panel-body
+          .row
+            .col-sm-2
+              = image_tag g['image']['medium_url'], alt: g['name'], class: 'img-responsive' if g['image']
+
+            .col-sm-9
+              .row
+                .col-sm-12
+                  h6 Description
+                  = g['deck'].html_safe if g['deck']
+
+              .row
+                .col-sm-12
+                  h6 Release Date
+                  = g['original_release_date']
+
+              .row
+                .col-sm-12
+                  h6 Platforms
+                  = g['platforms'].map{ |p| link_to(p['abbreviation'], search_games_path(query: params[:query])) }.to_sentence(last_word_connector: ' and ').html_safe if g['platforms']
