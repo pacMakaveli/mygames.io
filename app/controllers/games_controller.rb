@@ -7,6 +7,10 @@ class GamesController < ApplicationController
     @games = Game.all
   end
 
+  def search
+    @games = Game.search(params[:query])
+  end
+
   # GET /games/1
   # GET /games/1.json
   def show
