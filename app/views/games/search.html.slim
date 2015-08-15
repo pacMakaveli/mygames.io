@@ -20,6 +20,10 @@
         .panel-heading
           h2= g['name']
 
+          .btn-group
+            = link_to 'Add to my Games', '#', class: 'btn'
+            = link_to 'Add to my Wishlist', '#', class: 'btn'
+
           span.pull-right
             = g['resource_type']
 

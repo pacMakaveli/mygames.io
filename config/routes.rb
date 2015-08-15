@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :wishlists
+  devise_for :users
   resources :games do
     collection do
       get :search, to: 'games#search', as: :search
