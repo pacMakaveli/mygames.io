@@ -21,7 +21,7 @@
           h2= g['name']
 
           .btn-group
-            = link_to 'Add to my Games', '#', class: 'btn'
+            = link_to 'Add to my Games', new_from_gb_games_path(g['id']), class: 'btn'
             = link_to 'Add to my Wishlist', '#', class: 'btn'
 
           span.pull-right
