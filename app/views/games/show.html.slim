@@ -1,0 +1,25 @@
+.media
+  .media-left
+    = image_tag(@game.cover.url(:thumb), alt: @game.name)
+
+  .media-body
+    h4.media-heading
+      = link_to(@game.name, game_path(@game.to_param))
+
+    h6 Description
+    = @game.description
+
+    h6 Release Date
+
+    h6 Genre
+    / = @game.genre
+
+    h6 Date added
+    = "#{distance_of_time_in_words(@game.created_at, Time.now)} ago"
+
+.panel.panel-default
+  .panel-heading
+    = "#{@game.name} Wiki"
+
+  .panel-body
+    = @game.wiki.body.html_safe

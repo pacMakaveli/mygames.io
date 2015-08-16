@@ -29,6 +29,15 @@
 
             .media-body
               h4.media-heading
-                = g.name
+                = link_to(g.name, game_path(g.to_param))
 
+              h6 Description
               = g.description
+
+              h6 Release Date
+
+              h6 Genre
+              / = g.genre
+
+              h6 Date added
+              = "#{distance_of_time_in_words(g.created_at, Time.now)} ago"
