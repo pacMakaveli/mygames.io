@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :queries
   devise_for :users
 
   root to: 'games#search'
