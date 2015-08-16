@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
 
   def index
     @games = Game.where(user_id: current_user)
+    @wishlist = Wishlist.where(user_id: current_user)
 
     render 'application/dashboard'
   end

@@ -17,8 +17,32 @@ html lang='en'
 
   body
 
-    .container
+    header.header
+      nav.navbar.navbar-default
+        .container
+          .navbar-header
+            = link_to 'games.directory', '#', class: 'navbar-brand'
+
+          #main-navbar.collapse.navbar-collapse
+            ul.nav.navbar-nav
+              li
+                = link_to 'Games', games_path
+
+            ul.nav.navbar-nav.navbar-right
+
+              li
+
+                = form_tag search_games_path, method: :get, class: 'navbar-form' do |f|
+
+                  .form-group
+                    = text_field_tag 'query', params[:query], class: 'form-control', placeholder: 'Search for a Game'
+
+                  = submit_tag 'Search', class: 'btn btn-default'
+
+              li
+                = link_to 'You', root_path, class: 'btn btn-sm btn-success'
+
+    main.container
       = yield
 
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
-

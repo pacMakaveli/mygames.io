@@ -68,7 +68,7 @@ class GamesController < ApplicationController
   end
 
   def new_from_gb
-    Game.new_from_gb(params[:game])
+    Game.new_from_gb(params[:game], current_user)
 
     redirect_to games_path
   end

@@ -1,16 +1,34 @@
 .row
   .col-sm-3
+    .panel.panel-default
+      .panel-heading
+        h4
+          = current_user.email
+
+      .panel-body
+
+        p
+          = "Member since: #{distance_of_time_in_words(current_user.created_at, Time.now)} ago"
+
+        p
+          = "Games Saved: #{@games.count}"
+
+        p
+          = "Games on Wishlist: #{@wishlist.count}"
 
   .col-sm-9
 
-    - @games.each do |g|
+    ul.list-group
 
-      .media
-        .media-left
-          = link_to image_tag(g['image'], alt: g['name'], class: 'img-responsive'), ''
+      - @games.each do |g|
 
-        .media-body
-          h4.media-heading
-            = g['name']
+        li.list-group-item
+          .media
+            .media-left
+              = image_tag(g.cover.url(:thumb), alt: g.name)
 
-          = g['deck']
+            .media-body
+              h4.media-heading
+                = g.name
+
+              = g.description
