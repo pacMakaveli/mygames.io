@@ -12,11 +12,17 @@ class Game < ActiveRecord::Base
   validates_uniqueness_of :reference_id, scope: :user_id
 
   has_one :wiki
+  # has_and_belongs_to_many :platforms
+  # has_and_belongs_to_many :genres
+
+  def to_param
+    "#{id}-#{name.parameterize}"
+    # [self.id, self.name.parametrize].join('-')
+  end
 
   def self.search(game)
     @search = GiantBomb::Search.new
-    # @search.limit(10)
-    @search.offset(100)
+    # @search.offset(100)
     @search.resources('game')
     @search.query(game)
 
@@ -33,15 +39,31 @@ class Game < ActiveRecord::Base
 
     game = GiantBomb::Game.detail(id, data)
 
+    puts game.inspect
+
+    # Game
+    #
     g = Game.new
-    g.name = game.name
+
+    g.name        = game.name
     g.description = game.deck
-    g.reference_id = id
-    g.cover = game.image['super_url']
-    g.user_id = user.id
+    g.cover       = game.image['super_url']
+    g.platform    = game.platforms
+
+    g.reference_id = game.id
+    g.user_id      = user.id
     g.save
 
-    Rails.logger.info user
-    # Rails.logger.info game['deck'].inspect
+    # Game Wiki
+    #
+    w = Wiki.new
+
+    w.game_id = g.id
+
+    w.genre        = game.genres
+    w.body         = game.description
+    w.theme        = game.themes
+    w.release_date = game.original_release_date
+    w.save
   end
 end
