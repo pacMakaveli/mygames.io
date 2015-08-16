@@ -1,7 +1,12 @@
 class Game < ActiveRecord::Base
 
+  has_attached_file :cover, styles: {
+    :medium => "300x300>",
+    :thumb => "100x100>"
+  }, :default_url => "/images/:style/missing.png"
 
-  # validates_uniqueness_of :reference_id, scope: :user_id
+  validates_attachment_content_type :cover, :content_type => /\Aimage\/.*\Z/
+  validates_uniqueness_of :reference_id, scope: :user_id
 
   def self.search(game)
     @search = GiantBomb::Search.new
@@ -26,8 +31,8 @@ class Game < ActiveRecord::Base
     g = Game.new
     g.name = game.name
     g.description = game.deck
-    # g.reference_id = id
-    g.user_id = User.first
+    g.reference_id = id
+    g.user_id = current_user
     g.save
 
     Rails.logger.info game.deck
