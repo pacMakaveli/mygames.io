@@ -11,22 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150816112704) do
+ActiveRecord::Schema.define(version: 20150816124616) do
 
   create_table "games", force: :cascade do |t|
-    t.string   "name"
-    t.string   "endpoint"
-    t.text     "description"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
     t.integer  "user_id"
-    t.integer  "reference_id"
+    t.string   "name",               null: false
+    t.text     "description",        null: false
+    t.string   "platform"
     t.string   "cover_file_name"
     t.string   "cover_content_type"
     t.integer  "cover_file_size"
     t.datetime "cover_updated_at"
+    t.string   "endpoint"
+    t.integer  "reference_id",       null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
   end
 
+  add_index "games", ["reference_id"], name: "index_games_on_reference_id"
   add_index "games", ["user_id"], name: "index_games_on_user_id"
 
   create_table "queries", force: :cascade do |t|
@@ -35,6 +37,9 @@ ActiveRecord::Schema.define(version: 20150816112704) do
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
+
+  add_index "queries", ["count"], name: "index_queries_on_count"
+  add_index "queries", ["query"], name: "index_queries_on_query"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -54,20 +59,22 @@ ActiveRecord::Schema.define(version: 20150816112704) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
-  create_table "wishilists", force: :cascade do |t|
-    t.string   "name"
-    t.string   "description"
-    t.integer  "user_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+  create_table "wikis", force: :cascade do |t|
+    t.integer  "games_id"
+    t.string   "genre"
+    t.text     "description"
+    t.string   "theme"
+    t.date     "release_date"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
-  add_index "wishilists", ["user_id"], name: "index_wishilists_on_user_id"
+  add_index "wikis", ["games_id"], name: "index_wikis_on_games_id"
 
   create_table "wishlists", force: :cascade do |t|
+    t.integer  "user_id"
     t.string   "name"
     t.string   "description"
-    t.integer  "user_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end

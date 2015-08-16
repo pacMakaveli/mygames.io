@@ -1,7 +1,7 @@
 class CreateWikis < ActiveRecord::Migration
   def change
     create_table :wikis do |t|
-      t.reference :games, index: true, null: false
+      t.belongs_to :games, index: true, foreign_key: true
 
       t.string :genre
       t.text :description
