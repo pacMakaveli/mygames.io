@@ -1,9 +1,8 @@
 Rails.application.routes.draw do
 
-  resources :queries
   devise_for :users
 
-  root to: 'games#search'
+  root to: 'application#index'
 
   resources :games do
     collection do
@@ -18,4 +17,6 @@ Rails.application.routes.draw do
       get "new_from_gb/:game", to: 'wishlists#new_from_gb', as: :new_from_gb
     end
   end
+
+  resources :queries
 end

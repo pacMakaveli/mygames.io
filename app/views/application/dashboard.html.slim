@@ -1,0 +1,16 @@
+.row
+  .col-sm-3
+
+  .col-sm-9
+
+    - @games.each do |g|
+
+      .media
+        .media-left
+          = link_to image_tag(g['image'], alt: g['name'], class: 'img-responsive'), ''
+
+        .media-body
+          h4.media-heading
+            = g['name']
+
+          = g['deck']
