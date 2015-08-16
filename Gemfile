@@ -41,7 +41,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'giantbomb', github: 'pacMakaveli/giantbomb'
 
 # group :development do
-  gem 'giantbomb', path: '~/Projects/pacMakaveli/open-source/giantbomb'
+  # gem 'giantbomb', path: '~/Projects/pacMakaveli/open-source/giantbomb'
+  gem 'giantbomb', github: 'pacMakaveli/giantbomb', branch: 'v1.5.5'
 # end
 
 group :development, :test do
