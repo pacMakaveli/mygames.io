@@ -26,7 +26,7 @@ class Game < ActiveRecord::Base
     g = Game.new
     g.name = game.name
     g.description = game.deck
-    g.reference_id = id
+    # g.reference_id = id
     g.user_id = User.first
     g.save
 
