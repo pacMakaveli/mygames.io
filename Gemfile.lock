@@ -1,5 +1,6 @@
-PATH
-  remote: ~/Projects/pacMakaveli/open-source/giantbomb
+GIT
+  remote: git://github.com/pacMakaveli/giantbomb.git
+  revision: 467907419d53dae795bab12e29406d84aac9a434
   specs:
     giantbomb (1.5.4)
       httparty
