@@ -12,12 +12,14 @@ class Game < ActiveRecord::Base
   validates_uniqueness_of :reference_id, scope: :user_id
 
   has_one :wiki
-  # has_and_belongs_to_many :platforms
-  # has_and_belongs_to_many :genres
+
+  has_many :collections
+  has_many :users, through: :collections
+
+  has_and_belongs_to_many :genres
 
   def to_param
-    "#{id}-#{name.parameterize}"
-    # [self.id, self.name.parametrize].join('-')
+    [id, name.parameterize].join('-')
   end
 
   def self.search(game)
@@ -52,7 +54,9 @@ class Game < ActiveRecord::Base
 
     g.reference_id = game.id
     g.user_id      = user.id
-    g.save
+    # g.save
+
+    puts g
 
     # Game Wiki
     #
@@ -64,6 +68,8 @@ class Game < ActiveRecord::Base
     w.body         = game.description
     w.theme        = game.themes
     w.release_date = game.original_release_date
-    w.save
+    # w.save
+
+    puts w
   end
 end
