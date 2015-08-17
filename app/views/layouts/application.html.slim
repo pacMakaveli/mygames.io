@@ -13,36 +13,47 @@ html lang='en'
       = 'games.directory'
 
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+    = stylesheet_link_tag 'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css', media: 'all', 'data-turbolinks-track' => true
+
     = csrf_meta_tags
 
   body
 
     header.header
-      nav.navbar.navbar-default
-        .container
+      .grid
+
+        nav.navbar
           .navbar-header
             = link_to 'games.directory', '#', class: 'navbar-brand'
 
-          #main-navbar.collapse.navbar-collapse
+          .navbar-collapse
+            .navbar-form
+              = form_tag search_games_path, method: :get do |f|
+                = text_field_tag 'query', params[:query], class: 'form-control', autofocus: true, placeholder: 'start by searching and adding games to your collection..'
+
             ul.nav.navbar-nav
-              li
-                = link_to 'Games', games_path
+              li.navbar-item
+                = link_to fa_icon('gamepad', text: 'games'), games_path, class: 'navbar-item-link'
 
-            ul.nav.navbar-nav.navbar-right
+              li.navbar-item
+                = link_to fa_icon('calendar-check-o', text: 'coming soon'), '#', class: 'navbar-item-link'
 
-              li
+              li.navbar-item
+                = link_to 'you', root_path, class: 'navbar-item-link'
 
-                = form_tag search_games_path, method: :get, class: 'navbar-form' do |f|
+    main.main
+      .grid
+        .row
+          = yield
 
-                  .form-group
-                    = text_field_tag 'query', params[:query], class: 'form-control', placeholder: 'Search for a Game'
 
-                  = submit_tag 'Search', class: 'btn btn-default'
+    footer.footer
 
-              li
-                = link_to 'You', root_path, class: 'btn btn-sm btn-success'
+      .grid
 
-    main.container
-      = yield
+        / Copyright 2015 Studio51, Some rights Reserved
+        / API provided by GiantBomb
+        / Colors by cooolors.co
+        / Created by Vlad Radulescu
 
     = javascript_include_tag 'application', 'data-turbolinks-track' => true

@@ -1,43 +1,66 @@
-.row
-  .col-sm-3
-    .panel.panel-default
-      .panel-heading
-        h4
-          = current_user.email
+.cell-sm-2
 
-      .panel-body
+  .panel.panel-default
+    .panel-heading
+      h4
+        = current_user.email
 
-        p
-          = "Member since: #{distance_of_time_in_words(current_user.created_at, Time.now)} ago"
+    .panel-body
 
-        p
-          = "Games Saved: #{@games.count}"
+      p
+        = "Member since: #{distance_of_time_in_words(current_user.created_at, Time.now)} ago"
 
-        p
-          = "Games on Wishlist: #{@wishlist.count}"
+      p
+        = "Games Saved: #{@games.count}"
 
-  .col-sm-9
+      p
+        = "Games on Wishlist: #{@wishlist.count}"
 
-    ul.list-group
+.cell-sm-10
 
-      - @games.each do |g|
+  .games.games--dashboard.games--list
 
-        li.list-group-item
-          .media
-            .media-left
-              = image_tag(g.cover.url(:thumb), alt: g.name)
+    - @games.each do |g|
 
-            .media-body
-              h4.media-heading
-                = link_to(g.name, game_path(g.to_param))
+        .row.game
+          .cell-sm-2.game-image
+            = image_tag(g.cover.url(:original), alt: g.name, class: 'img-responsive')
 
-              h6 Description
-              = g.description
+          .cell-sm-7.game-body
+            h2.game-title
+              = link_to(g.name, game_path(g.to_param))
 
-              h6 Release Date
+              span.text-info
+                / = g.akas
 
-              h6 Genre
-              / = g.genre
+            .game-description
+              h6.game-body-heading Description
+              p.game-body-content
+                = g.description
 
-              h6 Date added
-              = "#{distance_of_time_in_words(g.created_at, Time.now)} ago"
+            .game-rating
+              h6.game-body-heading Your Rating
+              p.game-body-content
+                = fa_icon('star')
+                = fa_icon('star')
+                = fa_icon('star')
+                = fa_icon('star')
+                = fa_icon('star')
+
+          .cell-sm-3.game-body
+            .game-release-date
+              h6.game-body-heading Release Date
+              p.game-body-content.tooltip-left data-tooltip="#{g.wiki.release_date}"
+                = "#{distance_of_time_in_words(g.wiki.release_date, Time.now)} ago"
+
+            .game-genre
+              h6.game-body-heading Genre
+              p.game-body-content
+
+            .game-date-added
+              h6.game-body-heading Date added
+              p.game-body-content.tooltip-left data-tooltip="#{g.created_at}"
+                = "#{distance_of_time_in_words(g.created_at, Time.now)} ago"
+
+            .game-actions
+              = link_to fa_icon('chain-broken'), '#', class: 'btn btn-danger tooltip-left', data: { tooltip: 'Remove this game for your Collection' }

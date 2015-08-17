@@ -1,0 +1,64 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the header of the site/application.
+// -----------------------------------------------------------------------------
+
+.header {
+  background-color: #fff;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+$navbar-padding: $theme-spacing * 2;
+
+.navbar {
+  &,
+  &-brand,
+  &-collapse,
+  &-header,
+  &-item,
+  &-item-link,
+  &-nav {
+    display: flex;
+  }
+
+  &-brand {
+    align-items: center;
+    font-size: 1.7em;
+    font-weight: 700;
+
+    &::after {
+      color: gray;
+      content: '\f120';
+      font-family: 'FontAwesome';
+      margin-left: $navbar-padding / 2;
+    }
+  }
+
+  &-collapse,
+  &-form {
+    flex: 1;
+  }
+
+  &-item {
+
+    &-link {
+      align-items: center;
+      font-weight: 500;
+      padding: 0 $navbar-padding;
+
+      &:hover { font-weight: 600; }
+
+      .fa { margin-right: $navbar-padding / 4; }
+    }
+  }
+
+  .form-control {
+    border: none;
+    color: gray;
+    padding: $navbar-padding ( $navbar-padding / 2 );
+    width: 100%;
+
+    &:focus { outline: none; }
+  }
+}

@@ -1,0 +1,13 @@
+/**
+ * Basic typography style for copy text
+ */
+
+body {
+  color: $text-color;
+  font: normal 90% / 1.4 $text-font-stack;
+}
+
+.img-responsive {
+  width: 100%;
+  height: 100%;
+}
