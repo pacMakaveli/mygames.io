@@ -1,0 +1,55 @@
+// -----------------------------------------------------------------------------
+// When having several themes, this file contains everything related to the
+// default one.
+// -----------------------------------------------------------------------------
+
+.main {
+  padding-top: $theme-spacing;
+}
+
+
+.game {
+  background-color: #fff;
+  padding: 32px;
+  margin-bottom: 16px;
+  border-radius: 3px;
+}
+
+.game-body {
+  padding-left: 32px;
+}
+
+.game-title {
+  line-height: 1;
+  margin: 0;
+  margin-bottom: 16px;
+
+  $color: #CE796B;
+
+  a {
+    color: $color;
+  }
+}
+
+.game-body-heading {
+  margin: 0;
+  margin-bottom: 8px;
+}
+
+.game-body-content {
+  font-size: .9em;
+  font-weight: 300;
+  margin: 0;
+  margin-bottom: 16px;
+}
+
+.game-body > [class*="game"] {
+  display: flex;
+  flex-direction: column;
+}
+
+.game-actions {
+  flex: 1;
+  justify-content: flex-end;
+  align-items: flex-end;
+}

@@ -1,3 +1,5 @@
+@charset 'UTF-8';
+
 /*
  * This is a manifest file that'll be compiled into application.css, which will include all the files
  * listed below.
@@ -10,8 +12,46 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
+ *= require fontawesome
  *= require_tree .
  *= require_self
- *= require bootstrap
- *= require font-awesome
  */
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+@import 'gridle';
+
+// 1. Vendors
+@import 'vendor/normalize';
+
+// 2. Configuration and helpers
+@import
+  'utils/variables',
+  'utils/functions',
+  'utils/mixins';
+
+// 3. Base stuff
+@import
+  'base/base',
+  'base/typography';
+
+// 4. Layout-related sections
+@import
+  'layout/header',
+  'layout/footer';
+
+// 5. Components
+@import
+  'components/buttons',
+  'components/tooltips';
+
+// 6. Page-specific styles
+@import
+  'pages/home';
+
+// 7. Themes
+@import
+  'themes/default';

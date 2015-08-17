@@ -66,6 +66,8 @@ GEM
       warden (~> 1.2.3)
     erubis (2.7.0)
     execjs (2.6.0)
+    font-awesome-rails (4.3.0.0)
+      railties (>= 3.2, < 5.0)
     giantbomb (0.5.2)
       httparty
     globalid (0.3.6)
@@ -118,7 +120,6 @@ GEM
       sprockets-rails
     rails-assets-bootstrap (3.3.5)
       rails-assets-jquery (>= 1.9.1)
-    rails-assets-font-awesome (4.4.0)
     rails-assets-jquery (2.1.4)
     rails-deprecated_sanitizer (1.0.3)
       activesupport (>= 4.2.0.alpha)
@@ -194,6 +195,7 @@ DEPENDENCIES
   byebug
   coffee-rails (~> 4.1.0)
   devise
+  font-awesome-rails
   giantbomb
   jbuilder (~> 2.0)
   jquery-rails
@@ -201,7 +203,6 @@ DEPENDENCIES
   pg
   rails (= 4.2.3)
   rails-assets-bootstrap!
-  rails-assets-font-awesome!
   rails-assets-jquery!
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
