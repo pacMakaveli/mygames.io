@@ -11,25 +11,39 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150816124616) do
+ActiveRecord::Schema.define(version: 20150817182542) do
+
+  create_table "collections", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "game_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "collections", ["game_id"], name: "index_collections_on_game_id"
+  add_index "collections", ["user_id"], name: "index_collections_on_user_id"
 
   create_table "games", force: :cascade do |t|
-    t.integer  "user_id"
+    t.integer  "platform_id"
     t.string   "name",               null: false
+    t.string   "aliases"
     t.text     "description",        null: false
-    t.string   "platform"
     t.string   "cover_file_name"
     t.string   "cover_content_type"
     t.integer  "cover_file_size"
     t.datetime "cover_updated_at"
+    t.string   "platforms"
     t.string   "endpoint"
     t.integer  "reference_id",       null: false
+    t.date     "release_date"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
   end
 
+  add_index "games", ["endpoint"], name: "index_games_on_endpoint"
+  add_index "games", ["name"], name: "index_games_on_name"
+  add_index "games", ["platform_id"], name: "index_games_on_platform_id"
   add_index "games", ["reference_id"], name: "index_games_on_reference_id"
-  add_index "games", ["user_id"], name: "index_games_on_user_id"
 
   create_table "queries", force: :cascade do |t|
     t.string   "query",                  null: false
@@ -61,12 +75,12 @@ ActiveRecord::Schema.define(version: 20150816124616) do
 
   create_table "wikis", force: :cascade do |t|
     t.integer  "game_id"
-    t.string   "genre"
     t.text     "body"
     t.string   "theme"
-    t.date     "release_date"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.string   "developer"
+    t.string   "publisher"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_index "wikis", ["game_id"], name: "index_wikis_on_game_id"

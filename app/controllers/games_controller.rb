@@ -68,19 +68,89 @@ class GamesController < ApplicationController
   end
 
   def new_from_gb
-    Game.new_from_gb(params[:game], current_user)
+    # Game.new_from_gb(params[:game], current_user)
 
-    redirect_to games_path
+
+    Struct.new('Developers', :name, :url, :reference_id )
+    Struct.new('Genres', :name, :url, :reference_id )
+    Struct.new('Platforms', :name, :abbreviation, :url, :reference_id )
+    # Struct.new('Developers', :name, :url)
+    # Struct.new('Developers', :name, :url)
+    # Struct.new('Developers', :name, :url)
+
+    data = {
+      field_list: 'name'
+    }
+
+    game = GiantBomb::Game.detail(params[:game], data)
+
+    developers = []
+
+    game.developers.each do |d|
+      developers << Struct::Developers.new(d['name'], d['site_detail_url'], d['id'])
+    end
+
+    genres = []
+    game.genres.each do |g|
+      genres << Struct::Genres.new(g['name'], g['site_detail_url'], g['id'])
+    end
+
+    platforms = []
+    game.platforms.each do |p|
+      platforms << Struct::Platforms.new(p['name'], p['abbreviation'], p['site_detail_url'], p['id'])
+    end
+
+    # Game
+    #
+    g = Game.new
+
+    g.name        = game.name
+    # g.aliases     = game.aliases
+    # g.developers  = developers
+
+    g.description = game.deck
+    g.cover       = game.image['super_url']
+    g.platform    = game.platforms
+
+    g.reference_id = game.id
+    g.users        = [current_user.id]
+    # g.save
+
+    @game = []
+    @game << game
+    # @game << genres
+
+    # Game Wiki
+    #
+    w = Wiki.new
+
+    w.game_id = g.id
+
+    w.genre        = game.genres
+    w.body         = game.description
+    w.theme        = game.themes
+    w.release_date = game.original_release_date
+    # w.save
+
+    # @game << w
+
+    render json: @game
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_game
-      @game = Game.find(params[:id])
-    end
+private
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def game_params
-      params.require(:game).permit(:name, :endpoint, :description)
-    end
+  def set_game
+    @game = Game.find(params[:id])
+  end
+
+  def game_params
+    params.require(:game).permit(
+      :name,
+      :aliases,
+      :description,
+      :endpoint,
+      :cover,
+      user_ids: []
+    )
+  end
 end
