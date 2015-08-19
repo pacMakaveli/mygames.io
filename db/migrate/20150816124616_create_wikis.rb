@@ -4,10 +4,7 @@ class CreateWikis < ActiveRecord::Migration
       t.belongs_to :game, foreign_key: true
 
       t.text :body
-
-      t.string :theme
-      t.string :developer
-      t.string :publisher
+      t.text :publishers
 
       t.timestamps null: false
     end
