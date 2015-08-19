@@ -11,16 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150818085351) do
+ActiveRecord::Schema.define(version: 20150819170145) do
 
   create_table "collections", force: :cascade do |t|
-    t.integer  "user_id",    null: false
-    t.integer  "game_id",    null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "user_id",                null: false
+    t.integer  "game_id",                null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "rating",     default: 0
+    t.string   "platform"
   end
 
   add_index "collections", ["game_id"], name: "index_collections_on_game_id"
+  add_index "collections", ["platform"], name: "index_collections_on_platform"
+  add_index "collections", ["rating"], name: "index_collections_on_rating"
   add_index "collections", ["user_id"], name: "index_collections_on_user_id"
 
   create_table "games", force: :cascade do |t|
