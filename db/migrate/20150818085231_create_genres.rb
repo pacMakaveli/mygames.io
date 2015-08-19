@@ -1,0 +1,14 @@
+class CreateGenres < ActiveRecord::Migration
+  def change
+    create_table :genres do |t|
+      t.string  :name,          null: false
+      t.string  :url,           null: false
+      t.integer :api_reference, null: false
+
+      t.timestamps null: false
+    end
+
+    add_index :genres, :name
+    add_index :genres, :api_reference
+  end
+end
