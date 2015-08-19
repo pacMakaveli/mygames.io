@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!, only: [:index]
 
   def index
-    @games = User.find(current_user).games
+    @games = current_user.games
     @wishlist = Wishlist.where(user_id: current_user)
 
     render 'application/dashboard'

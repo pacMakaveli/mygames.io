@@ -1,4 +1,6 @@
-.cell-sm-2
+.cell-xs-12.cell-sm-3.cell-md-2
+
+
 
   .panel.panel-default
     .panel-heading
@@ -16,51 +18,163 @@
       p
         = "Games on Wishlist: #{@wishlist.count}"
 
-.cell-sm-10
+.cell-xs-12.cell-sm.cell-md
 
   .games.games--dashboard.games--list
 
     - @games.each do |g|
 
-        .row.game
-          .cell-sm-2.game-image
+      / TODO: Find a way to detect the viewport server-side and serve a smaller
+      / version for the smartphones
+
+      .row.game.visible-xs
+        .cell-xs
+
+          .row
+            .cell-xs-4
+
+              .game-image
+                = image_tag(g.cover.url(:original), alt: g.name, class: 'img-responsive')
+
+            .cell-xs
+
+              .game-title
+                h2
+                  = link_to(g.name, game_path(g.to_param))
+
+              .game-genre
+                ul.game-body-content.list
+
+                  - g.genres.map do |g|
+
+                    li
+                      = link_to(g.name, '#comingsoon', class: 'link')
+
+              .game-rating
+                h6.game-body-heading Your Rating
+                p.game-body-content
+                  = fa_icon('star')
+                  = fa_icon('star')
+                  = fa_icon('star')
+                  = fa_icon('star')
+                  = fa_icon('star')
+
+          .row
+            .cell-xs
+
+              .game-description
+                h6.game-body-heading Description
+                p.game-body-content
+                  = g.description
+
+                    .game-platforms
+                      h6.game-body-heading
+                        = g.release_platforms.count > 1 ? 'Platforms' : 'Platform'
+
+                      p.game-body-content
+
+                        - g.release_platforms.map do |p|
+
+                          = link_to p[:abbr], '#comingsoon', class: 'link badge tooltip-top', data: { tooltip: p[:name] }
+
+      .row.game.visible-sm
+        .cell-sm-2
+
+          .game-image
             = image_tag(g.cover.url(:original), alt: g.name, class: 'img-responsive')
 
-          .cell-sm-7.game-body
-            h2.game-title
-              = link_to(g.name, game_path(g.to_param))
+        .cell-sm-7
 
-              span.text-info
-                / = g.akas
+          .game-body
+
+            .row
+              .cell-sm
+
+                .game-title
+                  h2
+                    = link_to(g.name, game_path(g.to_param))
+
+                  .game-aliases
+                    span.game-title-info
+                      = g.aliases
+
+              .cell-sm-2
+                .game-rating
+                  p.game-body-content
+                    = fa_icon('star')
+                    = fa_icon('star')
+                    = fa_icon('star')
+                    = fa_icon('star')
+                    = fa_icon('star')
 
             .game-description
               h6.game-body-heading Description
               p.game-body-content
                 = g.description
 
-            .game-rating
-              h6.game-body-heading Your Rating
-              p.game-body-content
-                = fa_icon('star')
-                = fa_icon('star')
-                = fa_icon('star')
-                = fa_icon('star')
-                = fa_icon('star')
+            .game-platforms
+              h6.game-body-heading
+                = g.release_platforms.count > 1 ? 'Platforms' : 'Platform'
 
-          .cell-sm-3.game-body
-            .game-release-date
-              h6.game-body-heading Release Date
-              p.game-body-content.tooltip-left data-tooltip="#{g.wiki.release_date}"
-                = "#{distance_of_time_in_words(g.wiki.release_date, Time.now)} ago"
+              p.game-body-content
+
+                - g.release_platforms.map do |p|
+
+                  = link_to p[:abbr], '#comingsoon', class: 'link badge tooltip-top', data: { tooltip: p[:name] }
+
+            .row
+              .cell-md
+                .game-release-date
+                  h6.game-body-heading Release Date
+                  p.game-body-content.tooltip-left data-tooltip="#{g.release_date}"
+                    = "#{time_ago_in_words(g.release_date)} ago"
+
+              .cell-md
+                .game-date-added
+                  h6.game-body-heading Date added
+                  p.game-body-content.tooltip-left data-tooltip="#{Collection.find_by_game_id(g).created_at}"
+                    = "#{time_ago_in_words(Collection.find_by_game_id(g).created_at)} ago"
+
+        .cell-sm-3
+
+          .game-body
+
+            .game-theme
+              h6.game-body-heading
+                = g.themes.count > 1 ? 'Themes' : 'Theme'
+
+              ul.game-body-content.list
+
+                - g.themes.each do |t|
+
+                  li
+                    = link_to(t[:name], '#comingsoon', class: 'link')
 
             .game-genre
-              h6.game-body-heading Genre
+              h6.game-body-heading
+                = g.genres.count > 1 ? 'Genres' : 'Genre'
+
+              ul.game-body-content.list
+
+                - g.genres.each do |g|
+
+                  li
+                    = link_to(g.name, '#comingsoon', class: 'link')
+
+            .game-developer
+              h6.game-body-heading
+                = g.developers.count > 1 ? 'Developers' : 'Developer'
+
               p.game-body-content
 
-            .game-date-added
-              h6.game-body-heading Date added
-              p.game-body-content.tooltip-left data-tooltip="#{g.created_at}"
-                = "#{distance_of_time_in_words(g.created_at, Time.now)} ago"
+                - g.developers.map do |d|
 
-            .game-actions
-              = link_to fa_icon('chain-broken'), '#', class: 'btn btn-danger tooltip-left', data: { tooltip: 'Remove this game for your Collection' }
+                  - if g.developers.count < 2
+
+                    = d[:name]
+
+                  - else
+
+                    = "- #{d[:name]}"
+
+                  br
