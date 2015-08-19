@@ -28,6 +28,7 @@
           = g.description
 
         .game-else
-          = Game.find_by_api_reference(g.api_reference).users.map(&:email)
+          - Game.find_by_api_reference(g.api_reference).users.each do |u|
+            = u.email
 
 / <%= link_to 'New Game', new_game_path %>

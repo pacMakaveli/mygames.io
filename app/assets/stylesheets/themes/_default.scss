@@ -9,6 +9,10 @@
 
 }
 
+header {
+  z-index: 1;
+}
+
 .badge {
   padding: 4px 8px;
   border-radius: 2px;
@@ -28,60 +32,56 @@ ul.list {
 .visible-sm { display: none; }
 .visible-xs { display: flex; }
 
-.game {
+// .game {
 
-  // &-aliases,
-  // &-platforms,
-  // &-release-date,
-  // &-date-added,
-  // &-theme,
-  // &-developer {
-  //   display: none;
-  // }
+//   // &-aliases,
+//   // &-platforms,
+//   // &-release-date,
+//   // &-date-added,
+//   // &-theme,
+//   // &-developer {
+//   //   display: none;
+//   // }
 
-  &-image {
-    padding-right: 16px;
-    padding-bottom: 14px;
-  }
+//   &-image {
+//     padding-right: 16px;
+//     padding-bottom: 14px;
+//   }
 
-  &-title {
-    margin-bottom: 0 !important;
-    font-size: .9em;
-  }
+//   &-title {
+//     margin-bottom: 0 !important;
+//     font-size: .9em;
+//   }
 
-  &-genre {
-    margin: 4px 0 8px 0 !important;
-    font-size: .6em;
+//   &-genre {
+//     margin: 4px 0 8px 0 !important;
+//     font-size: .6em;
 
-    .list {
-      list-style: none;
-      padding: 0;
-      flex-direction: row;
-      flex-wrap: wrap;
+//     .list {
+//       list-style: none;
+//       padding: 0;
+//       flex-direction: row;
+//       flex-wrap: wrap;
 
-      li:not(:last-child)::after {
-        content: '/';
-        margin-right: 2px;
-        color: #999;
-      }
-    }
-  }
+//       li:not(:last-child)::after {
+//         content: '/';
+//         margin-right: 2px;
+//         color: #999;
+//       }
+//     }
+//   }
 
-  &-rating {
-    .game-body-content {
-      justify-content: flex-start !important;
-      text-align: left !important;
-    }
-  }
+//   &-rating {
+//     .game-body-content {
+//       justify-content: flex-start !important;
+//       text-align: left !important;
+//     }
+//   }
 
-  &-description {
-    margin-bottom: 0 !important;
-  }
-}
-
-@media screen and (min-width: 768px) {
-  .visible-sm { display: flex; }
-  .visible-xs { display: none; }
+//   &-description {
+//     margin-bottom: 0 !important;
+//   }
+// }
 
   .game {
     background-color: #fff;
@@ -161,4 +161,3 @@ ul.list {
       }
     }
   }
-}

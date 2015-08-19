@@ -51,9 +51,24 @@ html lang='en'
 
       .grid
 
-        / Copyright 2015 Studio51, Some rights Reserved
-        / API provided by GiantBomb
-        / Colors by cooolors.co
-        / Created by Vlad Radulescu
+        .row
+
+          .cell-sm
+            p © 2015 Studio51 Creative Services
+            p Released under MIT License, open source
+
+            p Created with love by Vlad Radulescu
+
+          .cell-sm-3
+
+            h6 Credits
+
+            ul.list
+              li
+                = "API: #{link_to('GiantBomb.com', '//giantbomb.com')}".html_safe
+              li
+                = "Colors: #{link_to('coolors.co', '//coolors.co')}".html_safe
+              li
+                = "Fonts: #{link_to('FontAwesome.io', '//fontawesome.io')}".html_safe
 
     = javascript_include_tag 'application', 'data-turbolinks-track' => true

@@ -1,22 +1,25 @@
 .cell-xs-12.cell-sm-3.cell-md-2
 
-
-
   .panel.panel-default
     .panel-heading
       h4
         = current_user.email
 
     .panel-body
+      ul.list
+        li
+          h6.user-info-heading Member since
+          p.user-info-content
+            = time_ago_in_words(current_user.created_at)
 
-      p
-        = "Member since: #{distance_of_time_in_words(current_user.created_at, Time.now)} ago"
+        li
+          h6.user-info-heading Your last visit
+          p.user-info-content
+            = "#{time_ago_in_words(current_user.last_sign_in_at)} ago"
 
-      p
-        = "Games Saved: #{@games.count}"
-
-      p
-        = "Games on Wishlist: #{@wishlist.count}"
+    .panel-footer
+      = link_to fa_icon('gamepad', text: 'Games'), '#', class: 'btn btn-primary'
+      = link_to fa_icon('heart-o', text: 'Wishlist'), '#', class: 'btn btn-success'
 
 .cell-xs-12.cell-sm.cell-md
 
@@ -24,71 +27,18 @@
 
     - @games.each do |g|
 
-      / TODO: Find a way to detect the viewport server-side and serve a smaller
-      / version for the smartphones
-
-      .row.game.visible-xs
-        .cell-xs
-
-          .row
-            .cell-xs-4
-
-              .game-image
-                = image_tag(g.cover.url(:original), alt: g.name, class: 'img-responsive')
-
-            .cell-xs
-
-              .game-title
-                h2
-                  = link_to(g.name, game_path(g.to_param))
-
-              .game-genre
-                ul.game-body-content.list
-
-                  - g.genres.map do |g|
-
-                    li
-                      = link_to(g.name, '#comingsoon', class: 'link')
-
-              .game-rating
-                h6.game-body-heading Your Rating
-                p.game-body-content
-                  = fa_icon('star')
-                  = fa_icon('star')
-                  = fa_icon('star')
-                  = fa_icon('star')
-                  = fa_icon('star')
-
-          .row
-            .cell-xs
-
-              .game-description
-                h6.game-body-heading Description
-                p.game-body-content
-                  = g.description
-
-                    .game-platforms
-                      h6.game-body-heading
-                        = g.release_platforms.count > 1 ? 'Platforms' : 'Platform'
-
-                      p.game-body-content
-
-                        - g.release_platforms.map do |p|
-
-                          = link_to p[:abbr], '#comingsoon', class: 'link badge tooltip-top', data: { tooltip: p[:name] }
-
-      .row.game.visible-sm
-        .cell-sm-2
+      .row.game
+        .cell-xs-2
 
           .game-image
             = image_tag(g.cover.url(:original), alt: g.name, class: 'img-responsive')
 
-        .cell-sm-7
+        .cell-xs-7
 
           .game-body
 
             .row
-              .cell-sm
+              .cell-xs
 
                 .game-title
                   h2
@@ -98,46 +48,51 @@
                     span.game-title-info
                       = g.aliases
 
-              .cell-sm-2
+              .cell-xs-2
                 .game-rating
                   p.game-body-content
-                    = fa_icon('star')
-                    = fa_icon('star')
-                    = fa_icon('star')
-                    = fa_icon('star')
-                    = fa_icon('star')
+
+                    - g.collections.first.rating.times do |s|
+                      = fa_icon('star')
 
             .game-description
               h6.game-body-heading Description
               p.game-body-content
                 = g.description
 
-            .game-platforms
-              h6.game-body-heading
-                = g.release_platforms.count > 1 ? 'Platforms' : 'Platform'
-
-              p.game-body-content
-
-                - g.release_platforms.map do |p|
-
-                  = link_to p[:abbr], '#comingsoon', class: 'link badge tooltip-top', data: { tooltip: p[:name] }
-
             .row
-              .cell-md
-                .game-release-date
-                  h6.game-body-heading Release Date
-                  p.game-body-content.tooltip-left data-tooltip="#{g.release_date}"
-                    = "#{time_ago_in_words(g.release_date)} ago"
 
-              .cell-md
+              .cell-sm-3
+
                 .game-date-added
                   h6.game-body-heading Date added
                   p.game-body-content.tooltip-left data-tooltip="#{Collection.find_by_game_id(g).created_at}"
                     = "#{time_ago_in_words(Collection.find_by_game_id(g).created_at)} ago"
 
-        .cell-sm-3
+              .cell-sm-2
+
+                .game-platforms
+                  h6.game-body-heading Platform
+                  p.game-body-content
+                    = link_to(g.collections.first.platform, '#comingsoon', class: 'link badge')
+
+              .cell-sm
+
+                .game-genre
+                  h6.game-body-heading
+                    = g.genres.count > 1 ? 'Genres' : 'Genre'
+
+                  p.game-body-content
+                    = g.genres.map { |g| link_to(g.name, '#comingsoon', class: 'link badge') }.join.html_safe
+
+        .cell-xs-3
 
           .game-body
+
+            .game-release-date
+              h6.game-body-heading Release Date
+              p.game-body-content.tooltip-left data-tooltip="#{g.release_date}"
+                = "#{time_ago_in_words(g.release_date)} ago"
 
             .game-theme
               h6.game-body-heading
@@ -149,17 +104,6 @@
 
                   li
                     = link_to(t[:name], '#comingsoon', class: 'link')
-
-            .game-genre
-              h6.game-body-heading
-                = g.genres.count > 1 ? 'Genres' : 'Genre'
-
-              ul.game-body-content.list
-
-                - g.genres.each do |g|
-
-                  li
-                    = link_to(g.name, '#comingsoon', class: 'link')
 
             .game-developer
               h6.game-body-heading

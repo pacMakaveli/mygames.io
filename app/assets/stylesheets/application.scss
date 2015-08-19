@@ -56,3 +56,60 @@ ul.list-unstyled {
 // 7. Themes
 @import
   'themes/default';
+
+
+.panel {
+  margin-right: 16px;
+}
+
+.panel-heading h4 {
+  margin: 0;
+  font-size: .8em;
+}
+
+.panel-heading {
+  background-color: #fff;
+  padding: 16px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+
+}
+
+.panel-body {
+  background-color: #fff;
+  padding: 16px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  margin-top: 16px;
+}
+
+.panel .list {
+  list-style: none;
+  padding: 0;
+  margin: 0 !important;
+}
+
+
+.panel .list li:not(:last-child) {
+  margin-bottom: 16px;
+}
+
+.user-info-heading {
+  margin: 0;
+  padding: 0;
+}
+.user-info-content {
+  margin-top: 8px;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.game:not(:last-child) {
+  margin-bottom: 16px;
+}
+
+
+.footer {
+  padding: 32px;
+  background-color: #fff;
+}
