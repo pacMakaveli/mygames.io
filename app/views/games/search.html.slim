@@ -2,15 +2,19 @@
 
   - if @games.nil?
 
-    = "No games found for <strong>#{params[:query]}</strong>".html_safe
+    = "Nothing found for '<span>#{params[:query]}</span>'".html_safe
 
   - else
 
-    = "Found <strong>#{@games.count}</strong> games that match <strong>'#{params[:query]}'</strong> query".html_safe
+    = "Your search term for '<span>#{params[:query]}</span>' returned <span>#{@games.count}</span> results.".html_safe
+
+    / = Game.where("name LIKE ? OR description LIKE ?", "%#{params[:query]}%", "%#{params[:query]}%").count
 
     ul.list-group
 
     - @games.each do |g|
+
+      / = Game.find_by_api_reference(g['id']).users.map(&:name)
 
       li.list-group-item
         .media
@@ -30,13 +34,14 @@
                 .pull-right
                   .btn-group.btn-group-sm
 
-                    - if Game.where("reference_id = ? AND user_id = ?", g['id'], current_user.id).exists?
+                    / - if current_user.games.reference_id == g['id']
+                    / - if Game.where("reference_id = ? AND user_id = ?", g['id'], current_user.id).exists?
 
-                      = link_to 'Remove from my Games', '', class: 'btn btn-warning'
+                      / = link_to 'Remove from my Games', '', class: 'btn btn-warning'
 
-                    - else
+                    / - else
 
-                      = link_to 'Add to my Games', new_from_gb_games_path(g['id']), class: 'btn btn-success'
+                    = link_to 'Add to my Games', new_from_gb_games_path(g['id']), class: 'btn btn-success'
 
                     = link_to 'Add to my Wishlist', '#', class: 'btn btn-success'
 

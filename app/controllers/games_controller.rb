@@ -68,73 +68,10 @@ class GamesController < ApplicationController
   end
 
   def new_from_gb
-    # Game.new_from_gb(params[:game], current_user)
+    Game.new_from_gb(params[:game], current_user)
+    redirect_to root_path
 
-
-    Struct.new('Developers', :name, :url, :reference_id )
-    Struct.new('Genres', :name, :url, :reference_id )
-    Struct.new('Platforms', :name, :abbreviation, :url, :reference_id )
-    # Struct.new('Developers', :name, :url)
-    # Struct.new('Developers', :name, :url)
-    # Struct.new('Developers', :name, :url)
-
-    data = {
-      field_list: 'name'
-    }
-
-    game = GiantBomb::Game.detail(params[:game], data)
-
-    developers = []
-
-    game.developers.each do |d|
-      developers << Struct::Developers.new(d['name'], d['site_detail_url'], d['id'])
-    end
-
-    genres = []
-    game.genres.each do |g|
-      genres << Struct::Genres.new(g['name'], g['site_detail_url'], g['id'])
-    end
-
-    platforms = []
-    game.platforms.each do |p|
-      platforms << Struct::Platforms.new(p['name'], p['abbreviation'], p['site_detail_url'], p['id'])
-    end
-
-    # Game
-    #
-    g = Game.new
-
-    g.name        = game.name
-    # g.aliases     = game.aliases
-    # g.developers  = developers
-
-    g.description = game.deck
-    g.cover       = game.image['super_url']
-    g.platform    = game.platforms
-
-    g.reference_id = game.id
-    g.users        = [current_user.id]
-    # g.save
-
-    @game = []
-    @game << game
-    # @game << genres
-
-    # Game Wiki
-    #
-    w = Wiki.new
-
-    w.game_id = g.id
-
-    w.genre        = game.genres
-    w.body         = game.description
-    w.theme        = game.themes
-    w.release_date = game.original_release_date
-    # w.save
-
-    # @game << w
-
-    render json: @game
+    # render json: @game
   end
 
 private
@@ -148,9 +85,15 @@ private
       :name,
       :aliases,
       :description,
-      :endpoint,
       :cover,
-      user_ids: []
+      :release_date,
+      :release_platforms,
+      :themes,
+      :developers,
+      :api_endpoint,
+      :api_reference,
+      :user_ids,
+      :genres_ids
     )
   end
 end
