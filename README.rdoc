@@ -1,13 +1,24 @@
+# mygames.io
 
+Please note this app was meant to be a quick experiment and a it was never meant to
+be maintained.
+It only showcases a working API connection between the app and GiantBomb.
+For an active development branch, see: https://github.com/Studio51/mygames.io
 
-## The reason
+* Don't use this code in production, it's made to work, it's not pretty
+* No tests ^
+* CSS is messy
+* No JS
 
-If you're like me, you probably have 100+ games and you manage them through an excel,
-or something like that.
+##### Installation
 
-A spreadsheet is okish, but it's hard to maintain and looks pretty shit.
+``` bash
+$ git clone git@github.com:pacMakaveli/mygames.io.git
+$ bundle install
+$ rake db:create && rake db:migrate && rake db:seed
+$ rails s
+```
 
-That's why I created games.directory .. It's a simple personal 'spreadsheet' of
-your games which can be transformed is something pretty cool. You can create collections,
-whishlists and so on..
+##### Requirements
 
+GiantBomb API key: http://giantbomb.com/api in `config/initializers/giantbomb.rb`
