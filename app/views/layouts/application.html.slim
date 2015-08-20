@@ -20,6 +20,7 @@ html lang='en'
   body
 
     header.header
+
       .grid
 
         nav.navbar
@@ -36,14 +37,13 @@ html lang='en'
                 = link_to fa_icon('gamepad', text: 'games'), games_path, class: 'navbar-item-link'
 
               li.navbar-item
-                = link_to fa_icon('calendar-check-o', text: 'coming soon'), '#', class: 'navbar-item-link'
-
-              li.navbar-item
                 = link_to 'you', root_path, class: 'navbar-item-link'
 
     main.main
+
       .grid
         .row
+
           = yield
 
 
@@ -52,18 +52,19 @@ html lang='en'
       .grid
 
         .row
+          .cell-sm
+
+            p
+              = "Built with all the love in the world by #{link_to('Vlad Radulescu', 'https://twitter.com/pacMakaveli90')}".html_safe
+
+            p
+              = "Released under MIT License, #{link_to('open source', 'https://github.com/pacMakaveli/mygames.io')}".html_safe
 
           .cell-sm
-            p © 2015 Studio51 Creative Services
-            p Released under MIT License, open source
-
-            p Created with love by Vlad Radulescu
-
-          .cell-sm-3
 
             h6 Credits
 
-            ul.list
+            ul.list-inline
               li
                 = "API: #{link_to('GiantBomb.com', '//giantbomb.com')}".html_safe
               li

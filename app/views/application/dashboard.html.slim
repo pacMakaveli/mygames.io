@@ -17,10 +17,6 @@
           p.user-info-content
             = "#{time_ago_in_words(current_user.last_sign_in_at)} ago"
 
-    .panel-footer
-      = link_to fa_icon('gamepad', text: 'Games'), '#', class: 'btn btn-primary'
-      = link_to fa_icon('heart-o', text: 'Wishlist'), '#', class: 'btn btn-success'
-
 .cell-xs-12.cell-sm.cell-md
 
   .games.games--dashboard.games--list
@@ -69,7 +65,7 @@
                   p.game-body-content.tooltip-left data-tooltip="#{Collection.find_by_game_id(g).created_at}"
                     = "#{time_ago_in_words(Collection.find_by_game_id(g).created_at)} ago"
 
-              .cell-sm-2
+              .cell-sm-3
 
                 .game-platforms
                   h6.game-body-heading Platform
