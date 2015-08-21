@@ -33,7 +33,6 @@ class Game < ActiveRecord::Base
     @search.resources('game')
     @search.query(game)
 
-
     return @search.fetch
   end
 
@@ -113,7 +112,7 @@ class Game < ActiveRecord::Base
 
       w = Wiki.find_or_create_by(game_id: gg.id) do |ww|
 
-        ww.game_id = g.id
+        ww.game_id = gg.id
 
         ww.body       = game.description
         ww.publishers = publishers

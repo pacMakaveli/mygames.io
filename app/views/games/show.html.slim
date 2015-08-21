@@ -1,25 +1,35 @@
-.media
-  .media-left
-    = image_tag(@game.cover.url(:thumb), alt: @game.name)
+.row.game
+  .cell-sm-2
 
-  .media-body
-    h4.media-heading
-      = link_to(@game.name, game_path(@game.to_param))
+    .game-image
+      = image_tag(@game.cover.url(:original), alt: @game.name, class: 'img-responsive')
 
-    h6 Description
-    = @game.description
+  .cell-sm.game-body
+    .row
+      .cell-sm-12
 
-    h6 Release Date
+        .row
+          .cell-sm
 
-    h6 Genre
-    / = @game.genre
+            .game-title
+              h2
+                = link_to(@game.name, game_path(@game.to_param))
 
-    h6 Date added
-    = "#{distance_of_time_in_words(@game.created_at, Time.now)} ago"
+          .cell-sm-3
+            .game-rating
+              p.game-body-content
+                = fa_icon('star')
+                = fa_icon('star')
+                = fa_icon('star')
+                = fa_icon('star')
+                = fa_icon('star')
 
-.panel.panel-default
-  .panel-heading
-    = "#{@game.name} Wiki"
+      .cell-sm-12
+        .game-description
+          = @game.description
 
-  .panel-body
-    = @game.wiki.body.html_safe
+.row
+  .cell-sm
+
+    .game
+      = @game.wiki.body.html_safe

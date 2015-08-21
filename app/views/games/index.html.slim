@@ -1,4 +1,5 @@
-/ <p id="notice"><%= notice %></p>
+.notice
+  = notice
 
 .games
 
@@ -10,25 +11,34 @@
         .game-image
           = image_tag(g.cover.url(:original), alt: g.name, class: 'img-responsive')
 
-      .cell-sm
-        .game-title
-          h2
-            = link_to(g.name, game_path(g.to_param))
+      .cell-sm.game-body
+        .row
+          .cell-sm-12
 
-        .cell-sm-2
-          .game-rating
-            p.game-body-content
-              = fa_icon('star')
-              = fa_icon('star')
-              = fa_icon('star')
-              = fa_icon('star')
-              = fa_icon('star')
+            .row
+              .cell-sm
 
-        .game-description
-          = g.description
+                .game-title
+                  h2
+                    = link_to(g.name, game_path(g.to_param))
 
-        .game-else
-          - Game.find_by_api_reference(g.api_reference).users.each do |u|
-            = u.email
+              .cell-sm-3
+                .game-rating
+                  p.game-body-content
+                    = fa_icon('star')
+                    = fa_icon('star')
+                    = fa_icon('star')
+                    = fa_icon('star')
+                    = fa_icon('star')
 
-/ <%= link_to 'New Game', new_game_path %>
+          .cell-sm-12
+            .game-description
+              = g.description
+
+            .game-else
+              ul.list
+
+                - Game.find_by_api_reference(g.api_reference).users.each do |u|
+
+                  li
+                    = u.email

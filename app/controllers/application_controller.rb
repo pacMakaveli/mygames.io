@@ -7,7 +7,6 @@ class ApplicationController < ActionController::Base
 
   def index
     @games = current_user.games
-    @wishlist = Wishlist.where(user_id: current_user)
 
     render 'application/dashboard'
   end

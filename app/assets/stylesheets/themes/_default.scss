@@ -161,3 +161,19 @@ ul.list {
       }
     }
   }
+
+.games--search .game-actions {
+  padding: 0;
+  margin: 0 0 $theme-spacing;
+  flex: 0 !important;
+
+  .btn {
+    width: 100%;
+    color: #fff;
+    border-radius: 3px;
+    padding: $theme-spacing;
+
+    &-warning { background-color: #EF626C; }
+    &-success { background-color: #A9D59D; }
+  }
+}
