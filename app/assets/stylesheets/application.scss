@@ -18,6 +18,16 @@
  */
 
 
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+}
+
 ul.list-unstyled {
 
   list-style: none;
@@ -56,3 +66,152 @@ ul.list-unstyled {
 // 7. Themes
 @import
   'themes/default';
+
+
+.panel {
+  margin-right: 16px;
+}
+
+.panel-heading h4 {
+  margin: 0;
+  font-size: .8em;
+}
+
+.panel-heading {
+  background-color: #fff;
+  padding: 16px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+
+}
+
+.panel-body {
+  background-color: #fff;
+  padding: 16px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  margin-top: 16px;
+}
+
+.panel .list {
+  list-style: none;
+  padding: 0;
+  margin: 0 !important;
+}
+
+
+.panel .list li:not(:last-child) {
+  margin-bottom: 16px;
+}
+
+.user-info-heading {
+  margin: 0;
+  padding: 0;
+}
+.user-info-content {
+  margin-top: 8px;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.game:not(:last-child) {
+  margin-bottom: 16px;
+}
+
+
+.footer {
+  padding: 32px;
+  background-color: #fff;
+  font-size: .9em;
+}
+
+.footer p {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.footer p:first-child {
+  margin-bottom: 4px;
+}
+
+.footer h6 {
+  margin: 0 0 16px 0;
+}
+
+ul.list-inline {
+  display: inline-flex;
+  padding: 0;
+  padding-left: 16px;
+  margin: 0;
+}
+
+ul.list-inline li {
+  margin-right: 32px;
+}
+
+ul.list-inline li a {
+
+  display: block;
+}
+
+.footer a {
+  font-weight: 500;
+  color: red;
+}
+
+.game-body-content {
+  flex-wrap: wrap;
+}
+
+
+.auth-form form .form-control {
+  padding: 16px;
+  border: none;
+}
+
+.form-control.email {
+  margin-bottom: 1px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+.auth-form form .form-control:last-child {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.input.boolean {
+  padding: 8px 0;
+}
+
+.input.boolean input {
+  margin-right: 8px;
+}
+
+.devise-links {
+  margin-top: 16px;
+  font-size: .9em;
+  font-weight: 500;
+}
+
+.devise-links a {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.auth-form-signup .btn {
+  margin-top: 16px;
+}
+
+.form-control.password-initial {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+.form-control.password-confirmation {
+  margin-left: 1px;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}

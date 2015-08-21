@@ -1,0 +1,26 @@
+.cell-sm-offset-4.cell-sm-4
+  .auth-form.auth-form-signup
+
+    h2 Forgot your password?
+
+    .cell-sm
+
+      .row
+        .cell-sm
+
+          = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+            = f.error_notification
+
+            .row
+              .cell-sm
+                = f.input_field :email, required: true, label: false, autofocus: true, placeholder: 'Email Address', class: 'form-control cell-xs-12'
+
+            .row.align-right
+              .cell-sm
+                = f.button :submit, 'Send me reset password instructions'
+
+      .row
+        .cell-sm
+
+          .devise-links
+            = render 'devise/shared/links'

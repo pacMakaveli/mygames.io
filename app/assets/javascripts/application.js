@@ -14,12 +14,3 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
-
-
-window.doorbellOptions = {
-  appKey: 'C5xs9iSPivjf4deg7zbTxw5aa1cJQIF5lNH9enpxjqrA7wAdBWOvTS4lGITa3Ggp'
-};
-
-(function(d, t) {
-  var g = d.createElement(t);g.id = 'doorbellScript';g.type = 'text/javascript';g.async = true;g.src = 'https://embed.doorbell.io/button/2017?t='+(new Date().getTime());(d.getElementsByTagName('head')[0]||d.getElementsByTagName('body')[0]).appendChild(g);
-}(document, 'script'));

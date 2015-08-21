@@ -12,9 +12,6 @@ class Game < ActiveRecord::Base
   default_url: '/images/:style/missing.png'
 
   do_not_validate_attachment_file_type :cover
-  # validates_attachment_content_type :cover, content_type: {
-  #   content_type: ['image/jpeg', 'image/jpeg', 'image/gif', 'image/png']
-  # }
 
   validates_uniqueness_of :api_reference
 
@@ -31,11 +28,10 @@ class Game < ActiveRecord::Base
 
   def self.search(game)
     @search = GiantBomb::Search.new
-    # @search.offset(100)
-    @search.limit(2)
+    @search.offset(100)
+    @search.limit(10)
     @search.resources('game')
     @search.query(game)
-
 
     return @search.fetch
   end
@@ -43,8 +39,6 @@ class Game < ActiveRecord::Base
   # Creates a local copy of the Games based on it's ID from GiantBomb' API
   #
   def self.new_from_gb(id, user)
-    # Game
-    #
 
     data = {
       field_list: 'name'
@@ -91,7 +85,6 @@ class Game < ActiveRecord::Base
       end
     end
 
-    # g = Game.find_or_create_by(api_reference: game.id) do |gg|
     @game = Game.find_by_api_reference(game.id)
 
     if @game.nil?
@@ -119,7 +112,7 @@ class Game < ActiveRecord::Base
 
       w = Wiki.find_or_create_by(game_id: gg.id) do |ww|
 
-        ww.game_id = g.id
+        ww.game_id = gg.id
 
         ww.body       = game.description
         ww.publishers = publishers
@@ -128,16 +121,5 @@ class Game < ActiveRecord::Base
     else
       Collection.create(user: user, game: @game)
     end
-
-    # g.save
-    # if g.save
-    #   Rails.logger.info "success +++++++++++"
-    # else
-    #   Rails.logger.info "error #{g.errors} ++++++++++"
-    # end
-
-    # Game Wiki
-    #
-    # w.save
   end
 end
