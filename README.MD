@@ -22,3 +22,7 @@ $ rails s
 ##### Requirements
 
 GiantBomb API key: http://giantbomb.com/api in `config/initializers/giantbomb.rb`
+
+##### Preview
+
+![alt text](http://i.imgur.com/DjYyAlz.jpg 'Preview')
