@@ -1,0 +1,29 @@
+.cell-sm-offset-4.cell-sm-4
+  .auth-form
+
+    h2 Log in
+
+    .cell-sm
+
+      .row
+        .cell-sm
+
+          = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+
+            .row
+              = f.input_field :email, required: false, label: false, autofocus: true, placeholder: 'Email Address', class: 'form-control cell-xs-12'
+              = f.input_field :password, required: false, label: false, placeholder: 'Password', class: 'form-control cell-xs-12'
+
+            .row
+              .cell-sm
+                = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
+
+            .row.align-right
+              .cell-sm-3
+                = f.button :submit, 'Log in'
+
+      .row
+        .cell-sm
+
+          .devise-links
+            = render 'devise/shared/links'

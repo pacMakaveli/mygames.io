@@ -72,7 +72,7 @@ private
     params.require(:user).permit(
       :email,
       :password,
-      game_ids: []
+      :game_ids
     )
   end
 end

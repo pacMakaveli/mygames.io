@@ -1,15 +1,19 @@
 class Game < ActiveRecord::Base
 
+  serialize :themes
+  serialize :developers
+  serialize :release_platforms
+
   has_attached_file :cover, styles: {
-    large:  '500x700',
+    large:  '500x700>',
     medium: '200x300>',
     thumb:  '200x200>'
   },
-  # path: ':rails_root/public/images/:id/:style/:filename',
   default_url: '/images/:style/missing.png'
 
-  validates_attachment_content_type :cover, :content_type => /\Aimage\/.*\Z/
-  validates_uniqueness_of :reference_id, scope: :user_id
+  do_not_validate_attachment_file_type :cover
+
+  validates_uniqueness_of :api_reference
 
   has_one :wiki
 
@@ -24,10 +28,10 @@ class Game < ActiveRecord::Base
 
   def self.search(game)
     @search = GiantBomb::Search.new
-    # @search.offset(100)
+    @search.offset(100)
+    @search.limit(10)
     @search.resources('game')
     @search.query(game)
-
 
     return @search.fetch
   end
@@ -35,41 +39,87 @@ class Game < ActiveRecord::Base
   # Creates a local copy of the Games based on it's ID from GiantBomb' API
   #
   def self.new_from_gb(id, user)
+
     data = {
       field_list: 'name'
     }
-
     game = GiantBomb::Game.detail(id, data)
 
-    puts game.inspect
 
-    # Game
-    #
-    g = Game.new
+    developers = []
 
-    g.name        = game.name
-    g.description = game.deck
-    g.cover       = game.image['super_url']
-    g.platform    = game.platforms
+    game.developers.each do |game_developer|
+      developers << developer = { name: game_developer['name'], url: game_developer['site_detail_url'], api_reference: game_developer['id'] }
+    end
 
-    g.reference_id = game.id
-    g.user_id      = user.id
-    # g.save
+    publishers = []
 
-    puts g
+    game.publishers.each do |game_publisher|
+      publishers << publisher = { name: game_publisher['name'], url: game_publisher['site_detail_url'], api_reference: game_publisher['id'] }
+    end
 
-    # Game Wiki
-    #
-    w = Wiki.new
+    genres = []
+    unless game.genres.nil?
+      game.genres.each do |game_genre|
 
-    w.game_id = g.id
+        genre = Genre.find_or_create_by(api_reference: game_genre['id']) do |genre|
+          genre.name = game_genre['name']
+          genre.url = game_genre['site_detail_url']
+          genre.api_reference = game_genre['id']
+        end
 
-    w.genre        = game.genres
-    w.body         = game.description
-    w.theme        = game.themes
-    w.release_date = game.original_release_date
-    # w.save
+        genres << genre
+      end
+    end
 
-    puts w
+    platforms = []
+    game.platforms.each do |game_platform|
+      platforms << platform = { name: game_platform['name'], abbr: game_platform['abbreviation'], url: game_platform['site_detail_url'], api_reference: game_platform['id'] }
+    end
+
+    themes = []
+
+    unless game.themes.nil?
+      game.themes.each do |game_theme|
+        themes << theme = { name: game_theme['name'], url: game_theme['site_detail_url'], api_reference: game_theme['id'] }
+      end
+    end
+
+    @game = Game.find_by_api_reference(game.id)
+
+    if @game.nil?
+
+      Rails.logger.info "the game does not exists!"
+
+      gg = Game.new
+      gg.name     = game.name
+      gg.aliases  = game.aliases
+
+      gg.genres     = genres
+      gg.themes     = themes
+      gg.developers = developers
+
+      gg.description  = game.deck
+      gg.cover        = game.image['super_url']
+      gg.release_date = game.original_release_date
+
+      gg.release_platforms = platforms
+      gg.api_endpoint  = game.api_detail_url
+      gg.api_reference = game.id
+
+      gg.users        = [user]
+      gg.save
+
+      w = Wiki.find_or_create_by(game_id: gg.id) do |ww|
+
+        ww.game_id = gg.id
+
+        ww.body       = game.description
+        ww.publishers = publishers
+        ww.save
+      end
+    else
+      Collection.create(user: user, game: @game)
+    end
   end
 end

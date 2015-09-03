@@ -2,60 +2,74 @@
 
   - if @games.nil?
 
-    = "No games found for <strong>#{params[:query]}</strong>".html_safe
+    = "Nothing found for '<span>#{params[:query]}</span>'".html_safe
 
   - else
 
-    = "Found <strong>#{@games.count}</strong> games that match <strong>'#{params[:query]}'</strong> query".html_safe
+    = "Your search term for '<span>#{params[:query]}</span>' returned <span>#{@games.count}</span> results.".html_safe
 
-    ul.list-group
+    .games.games--search.games--list
 
-    - @games.each do |g|
+      - @games.each do |g|
 
-      li.list-group-item
-        .media
-          .media-left
-            = image_tag(g['image']['thumb_url'], alt: g['name']) if g['image']
-
-          .media-body
+        .row.game
+          .cell-sm
             .row
-              .col-sm-7
-                h4.media-heading
-                  = g['name']
-                  br
-                  small
-                    = "Also known as: #{g['aliases'].split("\n").join(', ')}" if g['aliases']
 
-              .col-sm-5
-                .pull-right
-                  .btn-group.btn-group-sm
+              .cell-sm-2
 
-                    - if Game.where("reference_id = ? AND user_id = ?", g['id'], current_user.id).exists?
+                .game-image
+                  = image_tag(g['image']['thumb_url'], alt: g['name']) if g['image']
 
-                      = link_to 'Remove from my Games', '', class: 'btn btn-warning'
+              .cell-sm.game-body
 
-                    - else
+                .game-title
+                  h2
+                    = g['name']
 
-                      = link_to 'Add to my Games', new_from_gb_games_path(g['id']), class: 'btn btn-success'
+                  .game-aliases
+                    span.game-title-info
+                      = g['aliases'].split("\n").join(', ') if g['aliases']
 
-                    = link_to 'Add to my Wishlist', '#', class: 'btn btn-success'
+                .game-description
+                  h6.game-body-heading Description
+                  p.game-body-content
+                    = g['deck']
 
-            .row
-              .col-sm-12
-                h6 Description
-                = g['deck']
+                .game-platforms
+                  h6.game-body-heading Platforms
+                  p.game-body-content
 
-              .col-sm-12
-                h6 Release Date
-                = "#{distance_of_time_in_words(g['original_release_date'], Time.now)} ago in #{g['original_release_date']}" if g['original_release_date']
+                    - if g['platforms']
+                      - g['platforms'].map do |p|
+                        = link_to(p['abbreviation'], '#comingsoon', class: 'link badge')
 
-              .col-sm-12
-                h6 Platforms
-                = g['platforms'].map{ |p| link_to(p['abbreviation'], search_games_path(query: params[:query])) }.to_sentence(last_word_connector: ' and ').html_safe if g['platforms']
+              .cell-sm-3.game-body
 
-              .col-sm-12
-                h6 Genre
-                = g['genres']
+                .game-actions
+
+                  - game = Game.find_by_api_reference(g['id'])
+
+                  - if Collection.where({ game_id: game.try(:id), user_id: current_user.id }).exists?
+
+                    = link_to 'Remove from my Games', '', class: 'btn btn-warning'
+
+                  - else
+
+                    = link_to 'Add to my Games', new_from_gb_games_path(g['id']), class: 'btn btn-success'
+
+                .game-release-date
+                  h6.game-body-heading Release Date
+
+                  - if g['original_release_date']
+
+                    p.game-body-content.tooltip-left data-tooltip="#{g['original_release_date']}"
+                      = "#{time_ago_in_words(g['original_release_date'])} ago"
+
+                .game-genre
+                  h6.game-body-heading Genre
+                  p.game-body-content
+                    = g['genres']
 
 - else
 

@@ -11,16 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150817182542) do
+ActiveRecord::Schema.define(version: 20150819170145) do
 
   create_table "collections", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "game_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "user_id",                null: false
+    t.integer  "game_id",                null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "rating",     default: 0
+    t.string   "platform"
   end
 
   add_index "collections", ["game_id"], name: "index_collections_on_game_id"
+  add_index "collections", ["platform"], name: "index_collections_on_platform"
+  add_index "collections", ["rating"], name: "index_collections_on_rating"
   add_index "collections", ["user_id"], name: "index_collections_on_user_id"
 
   create_table "games", force: :cascade do |t|
@@ -32,18 +36,39 @@ ActiveRecord::Schema.define(version: 20150817182542) do
     t.string   "cover_content_type"
     t.integer  "cover_file_size"
     t.datetime "cover_updated_at"
-    t.string   "platforms"
-    t.string   "endpoint"
-    t.integer  "reference_id",       null: false
+    t.text     "themes"
+    t.text     "developers"
+    t.text     "release_platforms"
     t.date     "release_date"
+    t.string   "api_endpoint"
+    t.integer  "api_reference",      null: false
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
   end
 
-  add_index "games", ["endpoint"], name: "index_games_on_endpoint"
+  add_index "games", ["api_endpoint"], name: "index_games_on_api_endpoint"
+  add_index "games", ["api_reference"], name: "index_games_on_api_reference"
   add_index "games", ["name"], name: "index_games_on_name"
   add_index "games", ["platform_id"], name: "index_games_on_platform_id"
-  add_index "games", ["reference_id"], name: "index_games_on_reference_id"
+
+  create_table "games_genres", force: :cascade do |t|
+    t.integer "game_id"
+    t.integer "genre_id"
+  end
+
+  add_index "games_genres", ["game_id"], name: "index_games_genres_on_game_id"
+  add_index "games_genres", ["genre_id"], name: "index_games_genres_on_genre_id"
+
+  create_table "genres", force: :cascade do |t|
+    t.string   "name",          null: false
+    t.string   "url",           null: false
+    t.integer  "api_reference", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "genres", ["api_reference"], name: "index_genres_on_api_reference"
+  add_index "genres", ["name"], name: "index_genres_on_name"
 
   create_table "queries", force: :cascade do |t|
     t.string   "query",                  null: false
@@ -76,9 +101,7 @@ ActiveRecord::Schema.define(version: 20150817182542) do
   create_table "wikis", force: :cascade do |t|
     t.integer  "game_id"
     t.text     "body"
-    t.string   "theme"
-    t.string   "developer"
-    t.string   "publisher"
+    t.text     "publishers"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -88,7 +111,7 @@ ActiveRecord::Schema.define(version: 20150817182542) do
   create_table "wishlists", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "name"
-    t.string   "description"
+    t.text     "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end

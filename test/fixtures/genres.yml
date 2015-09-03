@@ -2,10 +2,10 @@
 
 one:
   name: MyString
-  description: MyString
-  user_id: 
+  url: MyString
+  api_reference: 1
 
 two:
   name: MyString
-  description: MyString
-  user_id: 
+  url: MyString
+  api_reference: 1
