@@ -3,7 +3,7 @@
 Please note this app was meant to be a quick experiment and a it was never meant to
 be maintained.
 It only showcases a working API connection between the app and GiantBomb.
-For an active development branch, see: https://github.com/Studio51/mygames.io
+For an active development branch, see: https://github.com/Studio51/games.directory
 
 * Don't use this code in production, it's made to work, it's not pretty
 * No tests ^
